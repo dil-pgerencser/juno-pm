@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juno PM · Weekly Digest · #product-feedback</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f8f8f8;
+      display: flex;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    /* ── Slack shell ─────────────────────────────────────────── */
+    .slack-shell {
+      width: 100%;
+      max-width: 780px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .channel-bar {
+      background: #3f0e40;
+      color: #ffffffcc;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .channel-bar .hash { font-size: 16px; opacity: .7; }
+
+    /* ── Message row ─────────────────────────────────────────── */
+    .msg-row {
+      display: flex;
+      gap: 12px;
+      padding: 20px 16px 16px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .avatar {
+      width: 36px; height: 36px;
+      background: #4A154B;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .msg-body { flex: 1; min-width: 0; }
+
+    .msg-meta {
+      display: flex; align-items: baseline; gap: 8px;
+      margin-bottom: 6px;
+    }
+    .sender { font-weight: 700; font-size: 15px; color: #1d1c1d; }
+    .app-badge {
+      font-size: 10px; font-weight: 700;
+      background: #e8e8e8; color: #555;
+      border-radius: 3px; padding: 1px 5px;
+      text-transform: uppercase; letter-spacing: .3px;
+    }
+    .timestamp { font-size: 12px; color: #888; }
+
+    /* ── Message content ─────────────────────────────────────── */
+    .msg-content { font-size: 14px; line-height: 1.6; color: #1d1c1d; }
+
+    .headline {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1d1c1d;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* ── Theme block ─────────────────────────────────────────── */
+    .theme-block {
+      border-left: 3px solid #4A154B;
+      background: #fafafa;
+      border-radius: 0 6px 6px 0;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+    }
+
+    .theme-header {
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #1d1c1d;
+      display: flex; align-items: center; gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+
+    .impact-badge {
+      font-size: 11px; font-weight: 700;
+      border-radius: 4px; padding: 2px 7px;
+      text-transform: uppercase; letter-spacing: .3px;
+    }
+    .impact-high   { background: #fdecea; color: #c0392b; }
+    .impact-medium { background: #fef9ec; color: #b7770d; }
+    .impact-low    { background: #eaf5ea; color: #27ae60; }
+
+    .low-signal-badge {
+      font-size: 11px; font-weight: 700;
+      background: #fff3cd; color: #856404;
+      border: 1px solid #ffc107;
+      border-radius: 4px; padding: 2px 7px;
+      text-transform: uppercase; letter-spacing: .3px;
+    }
+
+    .theme-label {
+      font-size: 13px; color: #444;
+      margin-bottom: 8px;
+    }
+
+    .customer-says {
+      font-size: 13.5px; color: #333;
+      margin-bottom: 8px;
+    }
+
+    .quote-block {
+      border-left: 2px solid #ccc;
+      padding: 4px 10px;
+      color: #555;
+      font-style: italic;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .source-link {
+      font-style: normal;
+      color: #1264a3;
+      font-weight: 600;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .next-step {
+      font-size: 13px;
+      color: #1d1c1d;
+      background: #f0f4ff;
+      border-radius: 4px;
+      padding: 6px 10px;
+    }
+    .next-step strong { color: #4A154B; }
+
+    /* ── Open questions ──────────────────────────────────────── */
+    .section-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin: 18px 0 8px;
+    }
+
+    .oq-list { list-style: none; }
+    .oq-list li {
+      font-size: 13.5px;
+      color: #1d1c1d;
+      padding: 6px 0;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+    .oq-list li:last-child { border-bottom: none; }
+
+    .needs-clarification {
+      font-size: 11px; font-weight: 700;
+      background: #fff0f0; color: #c0392b;
+      border: 1px solid #f5c6cb;
+      border-radius: 4px; padding: 2px 7px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .bullet { color: #888; margin-top: 2px; }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    .footer {
+      margin-top: 18px;
+      padding-top: 12px;
+      border-top: 1px solid #eee;
+      font-size: 12px;
+      color: #999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .footer .juno-tag { font-weight: 600; color: #4A154B; }
+
+    /* ── Reaction row ────────────────────────────────────────── */
+    .reactions {
+      display: flex; gap: 6px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .reaction {
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 13px;
+      cursor: pointer;
+      background: #fff;
+      color: #444;
+    }
+    .reaction:hover { background: #f0f0f0; }
+  </style>
+</head>
+<body>
+
+<div class="slack-shell">
+
+  <!-- Channel bar -->
+  <div class="channel-bar">
+    <span class="hash">#</span>
+    product-feedback
+  </div>
+
+  <!-- Message -->
+  <div class="msg-row">
+    <div class="avatar">🤖</div>
+
+    <div class="msg-body">
+      <div class="msg-meta">
+        <span class="sender">Juno PM</span>
+        <span class="app-badge">App</span>
+        <span class="timestamp">Mon 8:00 AM</span>
+      </div>
+
+      <div class="msg-content">
+
+        <!-- 1. Headline -->
+        <div class="headline">
+          SSO login failures are blocking enterprise onboarding and represent the highest-volume customer pain point this week across 17 reports.
+        </div>
+
+        <!-- 2a. Theme 1 -->
+        <div class="theme-block">
+          <div class="theme-header">
+            SSO Login Failures
+            <span style="color:#888; font-weight:400;">·</span>
+            <span style="color:#555; font-weight:400; font-size:13px;">17 mentions</span>
+            <span style="color:#888; font-weight:400;">·</span>
+            Impact: <span class="impact-badge impact-high">High</span>
+            <span style="color:#888; font-weight:400; font-size:12px;">(blocks onboarding)</span>
+          </div>
+          <div class="customer-says">
+            Customers report that SSO authentication fails silently after the identity provider redirects back to the product. Several enterprise accounts have been unable to finish initial setup for more than a week.
+          </div>
+          <div class="quote-block">
+            "Our team spent two days thinking it was our IdP — turned out the callback URL wasn't matching. Zero error message shown."
+            <br/><span class="source-link">TICK-4421</span> · also see <span class="source-link">TICK-4438</span>, <span class="source-link">TICK-4452</span>
+          </div>
+          <div class="next-step">
+            <strong>Suggested next step:</strong> Reproduce the silent-failure case in staging and add a user-facing error message for callback mismatches. Owner: <strong>Auth squad</strong>
+          </div>
+        </div>
+
+        <!-- 2b. Theme 2 -->
+        <div class="theme-block">
+          <div class="theme-header">
+            CSV Export Timeouts
+            <span style="color:#888; font-weight:400;">·</span>
+            <span style="color:#555; font-weight:400; font-size:13px;">6 mentions</span>
+            <span style="color:#888; font-weight:400;">·</span>
+            Impact: <span class="impact-badge impact-medium">Medium</span>
+            <span style="color:#888; font-weight:400; font-size:12px;">(recurring workaround friction)</span>
+          </div>
+          <div class="customer-says">
+            Exports with more than roughly 5,000 rows fail or time out without a clear message. Customers are splitting data manually or using the API, but they find that workaround tedious.
+          </div>
+          <div class="quote-block">
+            "I scheduled the export for the end of the day but came back to a blank file. No email, no notification, nothing in the UI."
+            <br/><span class="source-link">TICK-4389</span> · <span class="source-link">#support-escalations · Oct 9 thread</span>
+          </div>
+          <div class="next-step">
+            <strong>Suggested next step:</strong> Investigate the export queue timeout threshold and add a failure notification. Owner: <strong>Data platform team</strong>
+          </div>
+        </div>
+
+        <!-- 2c. Theme 3 · LOW SIGNAL -->
+        <div class="theme-block" style="border-left-color: #ffc107;">
+          <div class="theme-header">
+            Dark Mode Request
+            <span style="color:#888; font-weight:400;">·</span>
+            <span style="color:#555; font-weight:400; font-size:13px;">2 mentions</span>
+            <span style="color:#888; font-weight:400;">·</span>
+            Impact: <span class="impact-badge impact-low">Low</span>
+            <span style="color:#888; font-weight:400; font-size:12px;">(preference, not blocker)</span>
+            <span class="low-signal-badge">⚠ Low Signal</span>
+          </div>
+          <div class="customer-says">
+            Two customers mentioned they would use the product more during evening hours if a dark mode option were available. No other details or complaints were included.
+          </div>
+          <div class="quote-block">
+            "Not a dealbreaker, but I'd love a dark theme — I use this late at night and the screen is bright."
+            <br/><span class="source-link">TICK-4461</span>
+          </div>
+          <div class="next-step">
+            <strong>Suggested next step:</strong> Log as a low-priority backlog item; revisit if volume increases above 5 mentions. Owner: <strong>Design system team</strong>
+          </div>
+        </div>
+
+        <!-- 3. Open questions -->
+        <div class="section-title">Open questions</div>
+        <ul class="oq-list">
+          <li>
+            <span class="needs-clarification">Needs clarification</span>
+            <span>Do SSO failures affect all identity providers (Okta, Azure AD, Google) or only specific configurations? <span class="source-link">TICK-4421</span> mentions Okta; it is unclear if the scope is wider. <em>— Juno needs a support ticket sample to determine breadth.</em></span>
+          </li>
+          <li>
+            <span class="bullet">•</span>
+            <span>Is the CSV timeout threshold currently configurable per customer, or is it a platform-wide setting? Relevant to estimating the fix scope. Source: <span class="source-link">TICK-4389</span></span>
+          </li>
+          <li>
+            <span class="bullet">•</span>
+            <span>Has the Auth squad seen the SSO silent-failure case before? Previous fix attempts are not visible in Jira. Source: <span class="source-link">TICK-4438</span></span>
+          </li>
+        </ul>
+
+        <!-- Footer -->
+        <div class="footer">
+          <span><span class="juno-tag">Juno</span> recommends. The PM decides.</span>
+          <span>Sources: Jira, #support-escalations, Intercom · Week of Oct 13 – Oct 19, 2026</span>
+        </div>
+
+        <!-- Reactions -->
+        <div class="reactions">
+          <span class="reaction">👍 3</span>
+          <span class="reaction">👀 2</span>
+          <span class="reaction">🔥 1</span>
+          <span class="reaction">＋</span>
+        </div>
+
+      </div><!-- msg-content -->
+    </div><!-- msg-body -->
+  </div><!-- msg-row -->
+
+</div><!-- slack-shell -->
+
+</body>
+</html>
