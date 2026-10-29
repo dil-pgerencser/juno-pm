@@ -17,6 +17,6 @@ _____
 
 ## Debrief
 
-- **What worked:** _____
-- **What broke / felt like a toy:** _____
-- **What I'd change next pass:** _____
+- **What worked:** The format is easy to scan: a headline first, then ranked themes with a mention count, impact, a customer quote, a source link, and one next step. Low-volume items are flagged, and the footer makes clear the PM decides, so it reads like a real Slack message a PM could forward to leadership.
+- **What broke / felt like a toy:** Some wording is jargon leaders won't know ("IdP", "callback URL"). Mention counts don't match the sources shown (17 mentions, only 3 tickets cited), and the data is hardcoded, so it proves the format, not that Juno works on real, messy input.
+- **What I'd change next pass:** Use plain language, keep next steps to suggestions, and link one source per counted mention.

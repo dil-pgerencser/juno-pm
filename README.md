@@ -1,8 +1,8 @@
 # Juno PM
 
-> _(one-line pitch: what Juno does, for whom, in one sentence)_
+> Juno turns a week of Slack threads, tickets, and call notes into a cited feedback digest for the PM, who decides what happens next.
 
-_Péter Gerencsér · cohort · date_
+Péter Gerencsér · AI Product Management · October 2026
 
 This repo is my final project for the **AI Product Management Certification**. Each module's artifact lives in its own folder.
 
